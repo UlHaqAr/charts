@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- get cdn for chart js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <!-- styling from bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Basic Chart</title>
+</head>
+<body>
+    <div class="container">
+        <!-- html canvas element -->
+        <canvas id="myChart"></canvas>
+    </div>
+    <!-- script  -->
+    <script>
+        // get the context for this canvas to be used in making our chart 
+        let chartContext = document.getElementById('myChart').getContext('2d');
+        // create a new object of chart
+        let barChart = new Chart ( chartContext, {
+            type: "bar",
+            data:{
+                labels: ['label1'],
+                datasets: [{
+                    label: 'example',
+                    data:[20]
+                }]
+            },
+            options:{}
+        });
+    </script>
+</body>
+</html>
