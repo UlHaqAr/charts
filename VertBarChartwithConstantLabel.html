@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- get cdn for chart js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <!-- styling from bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Basic Chart</title>
+</head>
+
+<body>
+    <div class="container">
+        <!-- html canvas element -->
+        <canvas id="myChart"></canvas>
+    </div>
+    <!-- script  -->
+    <script>
+        // get the context for this canvas to be used in making our chart 
+        let chartContext = document.getElementById('myChart').getContext('2d');
+        //global options
+        Chart.defaults.global.defaultFontFamily = 'Lato';
+        Chart.defaults.global.defaultFontSize = 15;
+        Chart.defaults.global.defaultFontColor = 'orange';
+
+        // create a new object of chart
+        let barChart = new Chart(chartContext, {
+            type: "bar", //pie, horizontalBar, line, doughnut, radar
+            data: {
+                labels: ['label1', 'label2', 'label3', 'label4'],
+                datasets: [{
+                    label: 'Sample bar chart',
+                    data: [50, 15, 5, 30],
+                    backgroundColor:['pink', 'cyan', 'purple', 'yellow'],
+                    borderWidth:2,
+                    borderColor:'black',
+                    hoverBorderWidth:4,
+                    hoverBorderColor:'white'
+                }],
+                
+            },
+            //properties here will override the global properties
+            options: {
+                title:{
+                    display:true,
+                    text:'Bar chart with colors',
+                    fontSize:20
+                },
+                //clicking on legend either shows the graph or removes it 
+                legend:{
+                    position:'right',
+                    labels:{
+                        fontColor:'black'
+                    }
+                },
+                layout:{
+                    padding:{
+                        left:0,
+                        top:50,
+                        right:0,
+                        bottom:0
+                    }
+                },
+                tooltips:{
+                    // enabled:false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            //to start y scale from 0, else it will start from minimum value in data
+                            beginAtZero: true
+                        }
+                    }]
+                },
+				animation: {
+                    duration: 0,
+                    onComplete: function () {
+                        const ctx = this.chart.ctx;
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal',
+                            Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+
+                        this.data.datasets.forEach(function (dataset) {
+                            for (let i = 0; i < dataset.data.length; i++) {
+                                const model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                                    scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                                ctx.fillStyle = '#444';
+                                let y_pos = model.y - 5;
+                                // Make sure data value does not get overflown and hidden
+                                // when the bar's value is too close to max value of scale
+                                // Note: The y value is reverse, it counts from top down
+                                if ((scale_max - model.y) / scale_max >= 0.93) {
+                                    y_pos = model.y + 20;
+                                }
+                                ctx.fillText(dataset.data[i], model.x, y_pos);
+                            }
+                        });
+                    }
+                }
+				
+            }
+        });
+    </script>
+</body>
+
+</html>
