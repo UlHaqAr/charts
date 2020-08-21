@@ -1,0 +1,21 @@
+body{
+    background-color: #FAE9E2;
+}
+
+.mapdiv{
+    width:550px;
+	height:650px;
+	background-color: #F9CAB6;
+	margin: auto;
+}
+
+.mapdiv path {
+    fill: #E7C3F6;
+    stroke: #D447F6;
+    stroke-width:2px;
+    transition: fill 0.3s;
+}
+
+.mapdiv :hover {
+    fill:#A00BC4;
+}
